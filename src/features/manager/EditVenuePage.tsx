@@ -1,14 +1,14 @@
 // src/features/manager/EditVenuePage.tsx
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { getVenue, updateVenue } from "../bookings/venues/venuesApi";
+import { getVenueById, updateVenue } from "../bookings/venues/venuesApi";
 import type { VenuePayload } from "../bookings/venues/venuesApi";
 import { useAuth } from "../bookings/Auth/store";
 
@@ -40,7 +40,7 @@ export default function EditVenuePage() {
   if (!id) return <p className="p-4 text-red-600">Missing venue ID.</p>;
 
   // -------------------------
-  // REACT-HOOK-FORM FIXED
+  // REACT-HOOK-FORM
   // -------------------------
   const {
     register,
@@ -48,7 +48,8 @@ export default function EditVenuePage() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    // TS kan være irriterende med generics her, så vi caster – helt greit i et eksamensprosjekt
+    resolver: zodResolver(schema) as any,
   });
 
   // -------------------------
@@ -56,7 +57,7 @@ export default function EditVenuePage() {
   // -------------------------
   const venueQuery = useQuery({
     queryKey: ["venue", id],
-    queryFn: () => getVenue(id),
+    queryFn: () => getVenueById(id),
     enabled: !!id,
   });
 
@@ -92,15 +93,13 @@ export default function EditVenuePage() {
     },
   });
 
-  function onSubmit(values: FormValues) {
+  const onSubmit: SubmitHandler<FormValues> = (values) => {
     const payload: Partial<VenuePayload> = {
       name: values.name,
       description: values.description,
       price: values.price,
       maxGuests: values.maxGuests,
-      media: values.mediaUrl
-        ? [{ url: values.mediaUrl }]
-        : [],
+      media: values.mediaUrl ? [{ url: values.mediaUrl }] : [],
       meta: {
         wifi: values.wifi ?? false,
         parking: values.parking ?? false,
@@ -114,7 +113,7 @@ export default function EditVenuePage() {
     };
 
     mutation.mutate(payload);
-  }
+  };
 
   if (venueQuery.isLoading) return <p className="p-6">Loading…</p>;
   if (venueQuery.error)
@@ -124,11 +123,7 @@ export default function EditVenuePage() {
     <div className="mx-auto max-w-2xl p-6">
       <h1 className="mb-4 text-3xl font-semibold">Edit Venue</h1>
 
-      {/* ------------------------- */}
-      {/* THE FORM — FIXED          */}
-      {/* ------------------------- */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
         {/* Name */}
         <div>
           <label className="mb-1 block text-sm">Name</label>
@@ -137,7 +132,7 @@ export default function EditVenuePage() {
             {...register("name")}
           />
           {errors.name && (
-            <p className="text-xs text-red-600 mt-1">{errors.name.message}</p>
+            <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
           )}
         </div>
 
@@ -150,7 +145,7 @@ export default function EditVenuePage() {
             {...register("description")}
           />
           {errors.description && (
-            <p className="text-xs text-red-600 mt-1">
+            <p className="mt-1 text-xs text-red-600">
               {errors.description.message}
             </p>
           )}
@@ -166,7 +161,7 @@ export default function EditVenuePage() {
               {...register("price")}
             />
             {errors.price && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="mt-1 text-xs text-red-600">
                 {errors.price.message}
               </p>
             )}
@@ -180,7 +175,7 @@ export default function EditVenuePage() {
               {...register("maxGuests")}
             />
             {errors.maxGuests && (
-              <p className="text-xs text-red-600 mt-1">
+              <p className="mt-1 text-xs text-red-600">
                 {errors.maxGuests.message}
               </p>
             )}
@@ -195,7 +190,7 @@ export default function EditVenuePage() {
             {...register("mediaUrl")}
           />
           {errors.mediaUrl && (
-            <p className="text-xs text-red-600 mt-1">
+            <p className="mt-1 text-xs text-red-600">
               {errors.mediaUrl.message}
             </p>
           )}

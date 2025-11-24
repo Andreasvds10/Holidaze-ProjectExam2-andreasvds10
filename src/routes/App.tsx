@@ -1,6 +1,8 @@
 // src/routes/App.tsx
+import type { ReactElement } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Layout from "../shared/Layout";
+import { RequireAuth, RequireManager } from "../shared/RequireAuth";
 
 // Auth pages
 import LoginPage from "../features/bookings/Auth/loginPage";
@@ -21,7 +23,7 @@ import ManagerVenuesPage from "../features/manager/ManagerVenuesPage";
 import CreateVenuePage from "../features/manager/CreateVenuePage";
 import EditVenuePage from "../features/manager/EditVenuePage";
 
-function Home() {
+function Home(): ReactElement {
   return (
     <section className="grid items-center gap-10 lg:grid-cols-2">
       <div>
@@ -75,7 +77,7 @@ function Home() {
   );
 }
 
-export default function App() {
+export default function App(): ReactElement {
   return (
     <Layout>
       <Routes>
@@ -88,16 +90,51 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Customer */}
-        <Route path="/bookings" element={<MyBookingsPage />} />
+        {/* Customer (må være logget inn) */}
+        <Route
+          path="/bookings"
+          element={
+            <RequireAuth>
+              <MyBookingsPage />
+            </RequireAuth>
+          }
+        />
 
-        {/* Profile */}
-        <Route path="/profile" element={<ProfilePage />} />
+        {/* Profile (må være logget inn) */}
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <ProfilePage />
+            </RequireAuth>
+          }
+        />
 
-        {/* Venue manager */}
-        <Route path="/manager/venues" element={<ManagerVenuesPage />} />
-        <Route path="/manager/venues/new" element={<CreateVenuePage />} />
-        <Route path="/manager/venues/:id/edit" element={<EditVenuePage />} />
+        {/* Venue manager (må være venueManager) */}
+        <Route
+          path="/manager/venues"
+          element={
+            <RequireManager>
+              <ManagerVenuesPage />
+            </RequireManager>
+          }
+        />
+        <Route
+          path="/manager/venues/new"
+          element={
+            <RequireManager>
+              <CreateVenuePage />
+            </RequireManager>
+          }
+        />
+        <Route
+          path="/manager/venues/:id/edit"
+          element={
+            <RequireManager>
+              <EditVenuePage />
+            </RequireManager>
+          }
+        />
 
         {/* 404 fallback */}
         <Route path="*" element={<div className="p-6">Not found</div>} />

@@ -1,16 +1,22 @@
 // src/features/bookings/Auth/registerPage.tsx
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate, Link } from "react-router-dom";
+
 import { registerUser, loginUser, getMe } from "./authApi";
 import { useAuth } from "./store";
-import { useNavigate, Link } from "react-router-dom";
-import { useState } from "react";
 
 const schema = z.object({
   name: z.string().min(3, "Min 3 characters"),
-  email: z.string().email("Enter a valid email"),
+  email: z
+    .string()
+    .email("Enter a valid email")
+    .refine((value) => value.endsWith("@stud.noroff.no"), {
+      message: "Use your stud.noroff.no email",
+    }),
   password: z.string().min(8, "Min 8 characters"),
   venueManager: z.boolean().default(false),
 });
@@ -37,10 +43,13 @@ export default function RegisterPage() {
     setServerError(null);
 
     try {
+      // Sørger for at vi har valid data før vi sender
       const payload = schema.parse(values);
 
+      // Registrer bruker
       await registerUser(payload);
 
+      // Logg inn direkte etter registrering
       const { accessToken } = await loginUser({
         email: payload.email,
         password: payload.password,
@@ -54,15 +63,23 @@ export default function RegisterPage() {
 
       navigate("/");
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Registration failed";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Registration failed. Please try again.";
       setServerError(msg);
     }
   };
 
   return (
     <div className="mx-auto max-w-md rounded-2xl border border-black/10 bg-white p-6 shadow-card">
-      <h1 className="mb-2 font-display text-2xl font-semibold">Create account</h1>
-      <p className="mb-6 text-sm opacity-70">Use your student email to register.</p>
+      <h1 className="mb-2 font-display text-2xl font-semibold">
+        Create account
+      </h1>
+      <p className="mb-6 text-sm opacity-70">
+        Use your <span className="font-medium">stud.noroff.no</span> email to
+        register.
+      </p>
 
       {serverError && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
@@ -71,6 +88,7 @@ export default function RegisterPage() {
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Name */}
         <div>
           <label className="mb-1 block text-sm">Name</label>
           <input
@@ -82,6 +100,7 @@ export default function RegisterPage() {
           )}
         </div>
 
+        {/* Email */}
         <div>
           <label className="mb-1 block text-sm">Email</label>
           <input
@@ -94,6 +113,7 @@ export default function RegisterPage() {
           )}
         </div>
 
+        {/* Password */}
         <div>
           <label className="mb-1 block text-sm">Password</label>
           <input
@@ -102,10 +122,13 @@ export default function RegisterPage() {
             {...register("password")}
           />
           {errors.password && (
-            <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-xs text-red-600">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
+        {/* Venue manager toggle */}
         <label className="flex items-center gap-2 text-sm">
           <input type="checkbox" {...register("venueManager")} />
           Register as Venue Manager
