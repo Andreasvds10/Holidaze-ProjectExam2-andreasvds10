@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg: #f7f5f2; /* brand.cream */
+  --ink: #0f1720; /* brand.ink */
+  --gold: #c2a36b; /* brand.gold */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Tailwind base layer */
+@layer base {
+  html {
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: white;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: "Playfair Display", ui-serif, Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+}
