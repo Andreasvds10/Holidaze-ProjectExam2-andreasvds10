@@ -1,40 +1,39 @@
 // src/lib/api.ts
-
-export async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const base = import.meta.env.VITE_API_URL as string | undefined;
-
-  if (!base) {
-    console.error("VITE_API_URL is not set. Check your .env file.");
-    throw new Error("VITE_API_URL is not set. Check your .env file.");
-  }
-
+export async function api<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
   const token = localStorage.getItem("accessToken");
 
-  const url = base + path;
-  console.log("[api] Request:", url);
+  if (!baseUrl) {
+    throw new Error("Missing VITE_API_URL in .env");
+  }
+  if (!apiKey) {
+    throw new Error("Missing VITE_API_KEY in .env");
+  }
 
-  const res = await fetch(url, {
-    ...init,
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+    "X-Noroff-API-Key": apiKey,          // ✔ REQUIRED
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;  // ✔ send token ved protected routes
+  }
+
+  const res = await fetch(baseUrl + endpoint, {
+    ...options,
     headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(init?.headers || {}),
+      ...headers,
+      ...(options.headers ?? {}),
     },
   });
 
+  const data = await res.json().catch(() => null);
+
   if (!res.ok) {
-    let message = `HTTP ${res.status}`;
-    try {
-      const body = await res.json();
-      if (body?.message) message = body.message;
-      console.error("[api] Error response body:", body);
-    } catch {
-      // ignore JSON parse fail
-    }
-    console.error("[api] Request failed:", url, message);
-    throw new Error(message);
+    console.error("[api] Error response body:", data);
+    throw new Error(data?.errors?.[0]?.message || "API request failed");
   }
 
-  const json = (await res.json()) as T;
-  return json;
+  return data as T;
 }

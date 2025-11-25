@@ -6,7 +6,12 @@ import { z } from "zod";
 
 export const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .refine((v) => v.endsWith("@stud.noroff.no"), {
+      message: "You must use a stud.noroff.no email",
+    }),
   password: z.string().min(8, "Password must be at least 8 characters"),
   venueManager: z.boolean().optional().default(false),
 });
@@ -27,10 +32,9 @@ export type Profile = {
   venueManager?: boolean;
 };
 
-
 /* ---------------------------------- API Calls ---------------------------------- */
 
-// REGISTER (fetch)
+// REGISTER
 export async function registerUser(input: RegisterInput) {
   const res = await api<{ data: Profile }>("/auth/register", {
     method: "POST",
@@ -40,35 +44,34 @@ export async function registerUser(input: RegisterInput) {
   return res.data;
 }
 
-// LOGIN (fetch)
-export async function loginUser(input: LoginInput): Promise<{ accessToken: string }> {
+// LOGIN
+export async function loginUser(
+  input: LoginInput
+): Promise<{ accessToken: string }> {
   const res = await api<{ data: { accessToken: string } }>("/auth/login", {
     method: "POST",
     body: JSON.stringify(input),
   });
 
   if (!res.data?.accessToken) {
-    throw new Error("Login failed: missing accessToken");
+    throw new Error("Login failed: No accessToken received.");
   }
 
   return { accessToken: res.data.accessToken };
 }
 
-// GET PROFILE (correct endpoint: /profiles/me)
+// GET CURRENT PROFILE (CORRECT ENDPOINT)
 export async function getMe(): Promise<Profile> {
-  const res = await api<{ data: Profile }>("/profiles/me");
+  const res = await api<{ data: Profile }>("/holidaze/profiles/me");
   return res.data;
 }
 
-// UPDATE AVATAR (PUT /auth/profile/media)
+// UPDATE AVATAR (CORRECT ENDPOINT)
 export async function updateAvatar(url: string, alt = "Avatar") {
-  const res = await api<{ data: Profile }>("/auth/profile/media", {
+  const res = await api<{ data: Profile }>("/holidaze/profiles/media", {
     method: "PUT",
     body: JSON.stringify({
-      avatar: {
-        url,
-        alt,
-      },
+      avatar: { url, alt },
     }),
   });
 

@@ -90,7 +90,7 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Name */}
         <div>
-          <label className="mb-1 block text-sm">Name</label>
+          <label className="mb-1 block text-sm">Username</label>
           <input
             className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 outline-none focus:border-black/20"
             {...register("name")}

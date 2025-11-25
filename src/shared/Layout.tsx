@@ -8,6 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   function handleLogout() {
+    // Fjern kun access token
     localStorage.removeItem("accessToken");
     setToken(null);
     setUser(null);
@@ -22,6 +23,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </Link>
 
         <nav className="flex items-center gap-4 text-sm">
+          {/* Always visible */}
           <NavLink
             to="/venues"
             className={({ isActive }) =>
@@ -31,6 +33,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             Venues
           </NavLink>
 
+          {/* Visible only when logged in */}
           {user && (
             <NavLink
               to="/bookings"
@@ -42,6 +45,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </NavLink>
           )}
 
+          {/* Venue manager only */}
           {user?.venueManager && (
             <NavLink
               to="/manager/venues"
@@ -53,6 +57,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </NavLink>
           )}
 
+          {/* Right side: auth controls */}
           {user ? (
             <>
               <NavLink
@@ -63,6 +68,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 {user.name}
               </NavLink>
+
               <button
                 type="button"
                 onClick={handleLogout}
@@ -81,6 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               >
                 Login
               </NavLink>
+
               <NavLink
                 to="/register"
                 className={({ isActive }) =>
