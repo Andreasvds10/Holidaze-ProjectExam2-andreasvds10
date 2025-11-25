@@ -1,4 +1,4 @@
-// src/features/manager/ManagerVenuesPage.tsx
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMyVenues, deleteVenue } from "../bookings/venues/venuesApi";
 import { useAuth } from "../bookings/Auth/store";
