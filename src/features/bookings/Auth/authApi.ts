@@ -2,16 +2,13 @@
 import { api } from "../../../lib/api";
 import { z } from "zod";
 
-/* ---------------------------------- Schemas ---------------------------------- */
+/* ------------------------- Schemas ------------------------- */
 
 export const registerSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
-  email: z
-    .string()
-    .email()
-    .refine((v) => v.endsWith("@stud.noroff.no"), {
-      message: "You must use a stud.noroff.no email",
-    }),
+  email: z.string().email().refine((v) => v.endsWith("@stud.noroff.no"), {
+    message: "You must use a stud.noroff.no email",
+  }),
   password: z.string().min(8, "Password must be at least 8 characters"),
   venueManager: z.boolean().optional().default(false),
 });
@@ -29,10 +26,11 @@ export type Profile = {
   name: string;
   email: string;
   avatar?: { url: string; alt?: string } | null;
+  banner?: { url: string; alt?: string } | null;
   venueManager?: boolean;
 };
 
-/* ---------------------------------- API Calls ---------------------------------- */
+/* ------------------------- API Calls ------------------------- */
 
 // REGISTER
 export async function registerUser(input: RegisterInput) {
@@ -40,35 +38,28 @@ export async function registerUser(input: RegisterInput) {
     method: "POST",
     body: JSON.stringify(input),
   });
-
   return res.data;
 }
 
 // LOGIN
-export async function loginUser(
-  input: LoginInput
-): Promise<{ accessToken: string }> {
+export async function loginUser(input: LoginInput) {
   const res = await api<{ data: { accessToken: string } }>("/auth/login", {
     method: "POST",
     body: JSON.stringify(input),
   });
 
-  if (!res.data?.accessToken) {
-    throw new Error("Login failed: No accessToken received.");
-  }
-
   return { accessToken: res.data.accessToken };
 }
 
-// GET CURRENT PROFILE (CORRECT ENDPOINT)
+// GET CURRENT USER  ✔ THIS IS THE CORRECT ENDPOINT
 export async function getMe(): Promise<Profile> {
-  const res = await api<{ data: Profile }>("/holidaze/profiles/me");
+  const res = await api<{ data: Profile }>("/auth/profile");
   return res.data;
 }
 
-// UPDATE AVATAR (CORRECT ENDPOINT)
+// UPDATE AVATAR
 export async function updateAvatar(url: string, alt = "Avatar") {
-  const res = await api<{ data: Profile }>("/holidaze/profiles/media", {
+  const res = await api<{ data: Profile }>("/auth/profile/media", {
     method: "PUT",
     body: JSON.stringify({
       avatar: { url, alt },
