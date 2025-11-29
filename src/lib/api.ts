@@ -1,30 +1,40 @@
 // src/lib/api.ts
-export async function api<T>(endpoint: string, options: RequestInit = {}) {
-  const baseUrl = import.meta.env.VITE_API_URL; // "https://v2.api.noroff.dev"
-  const apiKey = import.meta.env.VITE_API_KEY;
-  const token = localStorage.getItem("accessToken");
 
-  if (!baseUrl) throw new Error("Missing VITE_API_URL");
-  if (!apiKey) throw new Error("Missing VITE_API_KEY");
+export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  const base = import.meta.env.VITE_API_URL as string | undefined;
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "X-Noroff-API-Key": apiKey,
-  };
-
-  if (token) headers.Authorization = `Bearer ${token}`;
-
-  const res = await fetch(baseUrl + endpoint, {
-    ...options,
-    headers: { ...headers, ...(options.headers || {}) },
-  });
-
-  const data = await res.json().catch(() => null);
-
-  if (!res.ok) {
-    console.error("[api] Error response:", data);
-    throw new Error(data?.errors?.[0]?.message || "API Error");
+  if (!base) {
+    console.error("VITE_API_URL is not set. Check your .env file.");
+    throw new Error("VITE_API_URL is not set. Check your .env file.");
   }
 
-  return data as T;
+  const token = localStorage.getItem("accessToken");
+
+  const url = base + path;
+  console.log("[api] Request:", url);
+
+  const res = await fetch(url, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    let message = `HTTP ${res.status}`;
+    try {
+      const body = await res.json();
+      if (body?.message) message = body.message;
+      console.error("[api] Error response body:", body);
+    } catch {
+      // ignore JSON parse fail
+    }
+    console.error("[api] Request failed:", url, message);
+    throw new Error(message);
+  }
+
+  const json = (await res.json()) as T;
+  return json;
 }
