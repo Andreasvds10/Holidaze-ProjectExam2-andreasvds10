@@ -12,8 +12,12 @@ export default function Hero() {
         </span>
 
         <h1 className="mt-4 font-display text-4xl leading-tight text-[var(--ink)] md:text-5xl lg:text-6xl">
-          Find exclusive venues for your next escape
+          Your perfect stay, just a few clicks away.
         </h1>
+
+        <p className="mt-4 max-w-xl text-lg font-medium opacity-90 md:text-xl">
+          Discover unique venues and book unforgettable experiences with ease.
+        </p>
 
         <p className="mt-4 max-w-xl text-sm opacity-80 md:text-base">
           Curated spaces, transparent pricing, and a seamless booking
@@ -26,20 +30,19 @@ export default function Hero() {
             to="/venues"
             className="inline-flex h-11 items-center rounded-full bg-[var(--ink)] px-7 text-sm font-medium text-white shadow-lg shadow-black/20 transition hover:bg-black"
           >
-            Explore venues
+            Explore all venues
           </Link>
 
           <Link
             to="/bookings"
-            className="inline-flex h-11 items-center rounded-full border border-black/10 bg-white px-7 text-sm font-medium text-[var(--ink)] shadow-sm transition hover:border-black/30"
+            className="inline-flex h-11 items-center rounded-full border border-black/0 px-7 text-sm font-medium text-[var(--ink)] opacity-75 transition hover:opacity-100"
           >
             My bookings
           </Link>
-
-          <p className="text-xs opacity-70">
-            No hidden fees • Instant confirmation
-          </p>
         </div>
+
+        {/* Search Bar Placeholder */}
+        {/* Removed search bar as per user request */}
 
         <Stats />
       </div>
@@ -76,7 +79,7 @@ function HeroImage() {
         <img
           src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1200"
           alt="Interior of an elegant living room"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-opacity duration-1000"
         />
 
         <p className="absolute bottom-4 right-6 text-[10px] text-white/80 drop-shadow">

@@ -5,30 +5,28 @@ export default function Features() {
       <div className="grid gap-8 lg:grid-cols-3">
         <div>
           <h2 className="font-display text-xl text-[var(--ink)]">
-            Why book with Holidaze?
+            Why choose Holidaze?
           </h2>
           <p className="mt-3 text-sm opacity-75">
-            Built for your exam, styled like a premium booking platform.
-            Every venue, booking and profile is powered by the Noroff Holidaze
-            API.
-          </p>
-        </div>
-
-        <div className="space-y-3 text-sm">
-          <p className="font-semibold text-[var(--ink)]">Verified venues</p>
-          <p className="opacity-75">
-            Hosts manage their own listings, and venue managers can update,
-            edit and create venues directly from the platform.
+            Experience seamless booking and discover exceptional venues, all powered by the robust Noroff Holidaze API.
           </p>
         </div>
 
         <div className="space-y-3 text-sm">
           <p className="font-semibold text-[var(--ink)]">
-            Transparent bookings
+            <span className="mr-2 text-lg">✅</span> Verified Venues
           </p>
           <p className="opacity-75">
-            See available dates, blocked dates and your upcoming stays in one
-            place, with no surprise addons during checkout.
+            Book with confidence. All our venues are thoroughly vetted, ensuring quality and peace of mind for every stay.
+          </p>
+        </div>
+
+        <div className="space-y-3 text-sm">
+          <p className="font-semibold text-[var(--ink)]">
+            <span className="mr-2 text-lg">✨</span> Transparent Bookings
+          </p>
+          <p className="opacity-75">
+            No surprises. See all available dates and pricing upfront, and manage your upcoming stays with clarity.
           </p>
         </div>
       </div>
