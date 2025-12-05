@@ -9,10 +9,7 @@ export default function InfoSection() {
           Ready to find your perfect stay?
         </h2>
         <p className="mt-4 text-base opacity-80 md:text-lg">
-          Browse through our curated collection of exclusive venues. From
-          modern city apartments to serene countryside retreats, we have
-          something for every traveler. Start exploring and book your next
-          adventure today.
+          Join thousands of happy travelers who have found their ideal getaway with Holidaze. Your next adventure is just a click away.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -20,7 +17,7 @@ export default function InfoSection() {
             to="/venues"
             className="inline-flex h-12 items-center rounded-full bg-[var(--ink)] px-8 text-sm font-medium text-white shadow-lg shadow-black/20 transition hover:bg-black"
           >
-            Browse all venues
+            Explore all venues
           </Link>
           <Link
             to="/register"
@@ -30,23 +27,12 @@ export default function InfoSection() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="text-center">
-            <div className="text-2xl font-semibold text-[var(--ink)]">500+</div>
-            <div className="mt-1 text-xs opacity-70">Verified venues</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-semibold text-[var(--ink)]">50+</div>
-            <div className="mt-1 text-xs opacity-70">Cities worldwide</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-semibold text-[var(--ink)]">98%</div>
-            <div className="mt-1 text-xs opacity-70">Satisfaction rate</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-semibold text-[var(--ink)]">24/7</div>
-            <div className="mt-1 text-xs opacity-70">Customer support</div>
-          </div>
+        {/* Testimonial Placeholder */}
+        <div className="mt-12 mx-auto max-w-2xl text-center p-6 bg-white/70 rounded-2xl border border-black/5 shadow-inner">
+          <p className="text-lg font-display italic text-[var(--ink)]">
+            "Holidaze made finding our dream vacation spot incredibly easy. The selection was amazing, and the booking process was flawless!"
+          </p>
+          <p className="mt-4 text-sm font-medium text-gray-600">— Happy Customer</p>
         </div>
       </div>
     </section>
