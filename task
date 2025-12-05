@@ -1,0 +1,57 @@
+Goal
+The project demonstrates skills learnt over the past two years. The final product should reflect the candidate’s general development capabilities and visual and technical skills.
+
+
+Brief
+Holidaze, a new accommodation booking site, has asked you to develop a modern front-end for their application. While feature requirements are provided, design and UX are up to you.
+
+Build using the official API documentation.
+
+Customer-facing: users can browse venues and make bookings.
+
+Admin-facing: venue managers can register and manage venues and bookings.
+
+Terminology
+
+Visitor: A user who has not registered or logged in.
+
+Customer: A registered user logged in as a customer.
+
+Venue Manager: A registered user logged in as a Venue Manager.
+
+
+User Stories
+
+All Users
+
+View a list of Venues.
+
+Search for a specific Venue.
+
+View a Venue page by ID.
+
+Register as a Customer or Venue Manager (stud.noroff.no email).
+
+View a calendar with available and booked dates.
+
+Customers
+
+Log in and log out.
+
+Create a booking.
+
+View upcoming bookings.
+
+Update avatar/profile picture.
+
+Venue Managers
+
+Log in and log out.
+
+Create, edit, and delete a Venue.
+
+View upcoming bookings for the Venues they manage.
+
+Update avatar/profile picture.
+
+
