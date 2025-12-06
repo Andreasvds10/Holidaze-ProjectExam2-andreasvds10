@@ -63,31 +63,55 @@ The project implements both:
 src/
   app/
     queryClient.ts           # React Query client setup
+  components/
+    booking/
+      BookingCalendar.tsx      # Calendar for booking dates
+    home/
+      BecomeHost.tsx           # Call to action for becoming a host
+      FeaturedVenues.tsx       # Displays popular venues
+      Features.tsx             # Highlights key features
+      Hero.tsx                 # Hero section with main call to action and search
+      InfoSection.tsx          # General information and statistics
+      VenueCategories.tsx      # Section to browse venues by category
+    layout/
+      Footer.tsx
+      Header.tsx
+      Navigation.tsx
+    ui/
+      Toast.tsx                # UI for notifications
   features/
     bookings/
       Auth/
-        authApi.ts
+        authApi.ts             # Authentication API calls
         loginPage.tsx
         registerPage.tsx
-        store.ts
+        store.ts               # Auth store (Zustand)
+        utils.ts
+      blockedDates.ts          # Utility for handling blocked dates
+      bookingsApi.ts           # Bookings API calls
+      MyBookingsPage.tsx
       profile/
-        profileApi.ts
+        profileApi.ts          # Profile API calls
         ProfilePage.tsx
       venues/
-        venuesApi.ts
-        VenuesPage.tsx
         VenuePage.tsx
-        blockedDates.ts
-      bookingsApi.ts
-      MyBookingsPage.tsx
+        venuesApi.ts           # Venues API calls
+        VenuesPage.tsx
     manager/
-      ManagerVenuesPage.tsx
       CreateVenuePage.tsx
       EditVenuePage.tsx
+      ManagerVenuesPage.tsx
+      VenueBookingsPage.tsx    # Manager view of venue bookings
   lib/
     api.ts                   # API helper using VITE_API_URL
+  pages/
+    HomePage.tsx             # Main landing page
+    NotFoundPage.tsx
   routes/
     App.tsx                  # Application routes
   shared/
     Layout.tsx               # Layout with header / footer
     RequireAuth.tsx          # Simple auth / manager guards
+  index.css                  # Tailwind CSS imports and custom styles
+  main.tsx                   # Main entry point for React app
+```
