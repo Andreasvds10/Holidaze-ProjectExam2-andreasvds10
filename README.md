@@ -18,31 +18,31 @@ The project implements both:
 
 ### All Users
 
-- ✅ View a list of venues
-- ✅ Search for venues by name / location
-- ✅ View a single venue by ID with image, description, price, facilities and location
-- ✅ See booked dates for a venue and choose available dates when creating a booking
+-  View a list of venues
+-  Search for venues by name / location
+-  View a single venue by ID with image, description, price, facilities and location
+-  See booked dates for a venue and choose available dates when creating a booking
 
-### Customers (Logged-in Users)
+# Customers (Logged-in Users)
 
-- ✅ Register with a `@stud.noroff.no` email
-- ✅ Log in and log out
-- ✅ Create a booking on a venue
-- ✅ View upcoming bookings (separated from past bookings)
-- ✅ View and update profile avatar
+-  Register with a `@stud.noroff.no` email
+-  Log in and log out
+-  Create a booking on a venue
+-  View upcoming bookings (separated from past bookings)
+-  View and update profile avatar
 
-### Venue Managers
+# Venue Managers
 
-- ✅ Register as a Venue Manager
-- ✅ Log in and log out
-- ✅ Create a new venue (with media, meta and location)
-- ✅ Edit an existing venue
-- ✅ Delete a venue
-- ✅ View upcoming bookings for the venues they manage
+-  Register as a Venue Manager
+-  Log in and log out
+-  Create a new venue (with media, meta and location)
+-  Edit an existing venue
+-  Delete a venue
+-  View upcoming bookings for the venues they manage
 
 ---
 
-## 🔧 Tech Stack
+# Tech Stack
 
 - **Framework**: React (TypeScript, Vite)
 - **Language**: TypeScript
@@ -57,7 +57,7 @@ The project implements both:
 
 ---
 
-## 📂 Project Structure
+#Project Structure
 
 ```text
 src/
